@@ -1,0 +1,52 @@
+---
+import { Icon } from 'astro-icon/components';
+import { type CollectionEntry } from 'astro:content';
+import PeopleThumbnails from './PeopleThumbnails.astro';
+
+// Get from content
+type Props = {
+    publications: CollectionEntry<'publications'>[];
+};
+
+const { publications } = Astro.props;
+publications.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Use map instead of object to keep insertion order
+const publicationsByYear = new Map<number, typeof publications>();
+publications.forEach((pub) => {
+    const year = pub.data.date.getFullYear();
+    if (!publicationsByYear.has(year)) {
+        publicationsByYear.set(year, []);
+    }
+    publicationsByYear.get(year)!.push(pub);
+});
+---
+{publications.length === 0
+    ? <span class="text-base-content/50 text-lg font-medium">No publications here yet.</span>
+    : <div class="list bg-base-200 rounded-box shadow-md">
+        {
+            publications.map((publication) => (
+                <a href={`/publications/${publication.id}`}>
+                    <article class="list-row hover:bg-base-300 bg-base-200 flex flex-col gap-x-2 gap-y-1 lg:flex-row lg:items-center lg:justify-between">
+                        <div class="shrink grow">
+                            <h4 class="text-xs font-semibold">{publication.data.title}</h4>
+                            <span class="text-xs font-medium opacity-60">{publication.data.authors}</span>
+                        </div>
+                        <div class="flex shrink-0 items-center justify-between gap-2 bg-inherit">
+                            {
+                                publication.data.award !== undefined
+                                                && <div class="badge badge-primary tooltip px-0.75" data-tip={publication.data.award}>
+                                                    <Icon name="mdi:trophy" class="size-4"/>
+                                                </div>
+                            }
+                            <div class="badge badge-primary badge-outline">{publication.data.venue}</div>
+                            {publication.data.people !== undefined && (
+                                <PeopleThumbnails peopleReferences={publication.data.people} />
+                            )}
+                        </div>
+                    </article>
+                </a>
+            ))
+        }
+    </div>
+}

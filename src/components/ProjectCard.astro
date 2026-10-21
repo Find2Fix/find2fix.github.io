@@ -1,0 +1,21 @@
+---
+import { type CollectionEntry } from 'astro:content';
+import Image from '#components/Image.astro';
+
+type Props = {
+    project: CollectionEntry<'projects'>;
+    size?: 'lg' | 'sm'
+};
+
+const { project, size = 'lg' } = Astro.props;
+---
+<a href={`/${project.id}`} class="h-full">
+    <article class={`card bg-base-200 hover:bg-base-300 h-full w-full max-w-[300px] shadow ${size === 'lg' ? '' : 'card-sm'}`}>
+        <figure>
+            <Image src={project.data.image} size={300} aspectRatio={4 / 3} responsive/>
+        </figure>
+        <div class="card-body grow">
+            <h3 class={`card-title ${size === 'lg' ? '' : 'text-xs'}`}>{project.data.title}</h3>
+        </div>
+    </article>
+</a>

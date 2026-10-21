@@ -1,0 +1,75 @@
+---
+import { Icon } from 'astro-icon/components';
+import { type CollectionEntry } from 'astro:content';
+import NewsListCompact from './NewsListCompact.astro';
+
+// Get from content
+type Props = {
+    news: CollectionEntry<'news'>[];
+};
+
+const { news } = Astro.props;
+news.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Use map instead of object to keep insertion order
+const newsByYear = new Map<number, typeof news>();
+news.forEach((post) => {
+    const year = post.data.date.getFullYear();
+    if (!newsByYear.has(year)) {
+        newsByYear.set(year, []);
+    }
+    newsByYear.get(year)!.push(post);
+});
+---
+{news.length === 0
+    ? <span class="text-base-content/50 text-lg font-medium">No news here yet.</span>
+    : <div class="timeline flex flex-col gap-5">
+        {
+            Array.from(newsByYear.entries()).map(([year, posts]) => <section class="timeline-section">
+                <div class="timeline-point">
+                    <Icon name="mdi:newspaper-variant-multiple"/>
+                </div>
+                <h3 class="mb-2 text-lg font-semibold">{year}</h3>
+                <NewsListCompact news={posts} />
+            </section>)
+        }
+    </div>
+}
+
+<style>
+    @reference '#styles/app.css';
+
+    .timeline {
+        --timeline-line-width: 0.25rem;
+        --timeline-padding: 1.75rem;
+        --timeline-point-size: 1.5rem;
+        --timeline-point-icon-size: 0.75rem;
+        --timeline-header-height: 1.75rem;
+        @apply ml-4 relative;
+    }
+
+    .timeline:before {
+        @apply bg-primary/50 absolute;
+        content: '';
+        top: calc(var(--timeline-point-size) / 2);
+        bottom: 0;
+        left: 0;
+        width: var(--timeline-line-width);
+    }
+
+    .timeline-section {
+        @apply relative ps-7;
+    }
+
+    .timeline-point {
+        @apply bg-primary text-primary-content absolute rounded-full;
+        left: calc((var(--timeline-line-width) - var(--timeline-point-size)) / 2);
+        top: calc((var(--timeline-header-height) - var(--timeline-point-size)) / 2);
+        padding: calc((var(--timeline-point-size) - var(--timeline-point-icon-size)) / 2);
+    }
+
+    .timeline-point * {
+        width: var(--timeline-point-icon-size);
+        height: var(--timeline-point-icon-size);
+    }
+</style>

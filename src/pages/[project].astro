@@ -1,0 +1,61 @@
+---
+import PersonCard from '#components/PersonCard.astro';
+import Image from '#components/Image.astro';
+import PublicationTimeline from '#components/PublicationTimeline.astro';
+import Base from '#layouts/Base.astro';
+import {
+    getEntries,
+    getCollection,
+    render,
+} from 'astro:content';
+
+export async function getStaticPaths() {
+    const projects = await getCollection('projects');
+    return projects.map((project) => ({
+        params: { project: project.id },
+        props: { project },
+    }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const people = await getEntries(project.data.people ?? []);
+const publications = await getCollection('publications', (publication) => publication.data.project?.id === project.id);
+---
+<Base
+    title={project.data.title}
+    breadcrumbs={[]}
+>
+    <div class="prose">
+        <Content />
+    </div>
+
+    <Fragment slot="sidebar-start">
+        <Image
+            src={project.data.image}
+            size={300}
+            aspectRatio={4 / 3}
+            enforceAspectRatio={false}
+            responsive
+            credit={project.data.imageCredit}
+            class="mx-auto max-w-[300px] rounded"
+            fullscreenModal
+        />
+    </Fragment>
+
+    <section slot="sidebar-end">
+        <h2 class="heading-2 mt-0">People</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2">
+            {
+                people.map((person) => (
+                    <PersonCard person={person} size="sm"/>
+                ))
+            }
+        </div>
+    </section>
+
+    <section slot="extra">
+        <h2 class="heading-2">Publications</h2>
+        <PublicationTimeline publications={publications}/>
+    </section>
+</Base>

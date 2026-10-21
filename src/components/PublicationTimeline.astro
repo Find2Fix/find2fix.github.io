@@ -1,0 +1,77 @@
+---
+import { Icon } from 'astro-icon/components';
+import {
+    type CollectionEntry,
+} from 'astro:content';
+import PublicationList from './PublicationList.astro';
+
+// Get from content
+type Props = {
+    publications: CollectionEntry<'publications'>[];
+};
+
+const { publications } = Astro.props;
+publications.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Use map instead of object to keep insertion order
+const publicationsByYear = new Map<number, typeof publications>();
+publications.forEach((pub) => {
+    const year = pub.data.date.getFullYear();
+    if (!publicationsByYear.has(year)) {
+        publicationsByYear.set(year, []);
+    }
+    publicationsByYear.get(year)!.push(pub);
+});
+---
+{publications.length === 0
+    ? <span class="text-base-content/50 text-lg font-medium">No publications here yet.</span>
+    : <div class="timeline flex flex-col gap-5">
+        {
+            Array.from(publicationsByYear.entries()).map(([year, publications]) => <section class="timeline-section">
+                <div class="timeline-point">
+                    <Icon name="mdi:book-open-page-variant"/>
+                </div>
+                <h3 class="mb-2 text-lg font-semibold">{year}</h3>
+                <PublicationList publications={publications} />
+            </section>)
+        }
+    </div>
+}
+
+<style>
+    @reference '#styles/app.css';
+
+    .timeline {
+        --timeline-line-width: 0.25rem;
+        --timeline-padding: 1.75rem;
+        --timeline-point-size: 1.5rem;
+        --timeline-point-icon-size: 0.75rem;
+        --timeline-header-height: 1.75rem;
+        @apply ml-4 relative;
+    }
+
+    .timeline:before {
+        @apply bg-primary/50 absolute;
+        content: '';
+        top: calc(var(--timeline-point-size) / 2);
+        bottom: 0;
+        left: 0;
+        width: var(--timeline-line-width);
+    }
+
+    .timeline-section {
+        @apply relative ps-7;
+    }
+
+    .timeline-point {
+        @apply bg-primary text-primary-content absolute rounded-full;
+        left: calc((var(--timeline-line-width) - var(--timeline-point-size)) / 2);
+        top: calc((var(--timeline-header-height) - var(--timeline-point-size)) / 2);
+        padding: calc((var(--timeline-point-size) - var(--timeline-point-icon-size)) / 2);
+    }
+
+    .timeline-point * {
+        width: var(--timeline-point-icon-size);
+        height: var(--timeline-point-icon-size);
+    }
+</style>

@@ -1,0 +1,149 @@
+---
+import type { MarkdownLayoutProps } from 'astro';
+import '#styles/app.css';
+import Navigation from '#components/Navigation.astro';
+import { Icon } from 'astro-icon/components';
+import Banner from '#components/Banner.astro';
+
+export type PropsBase = {
+    title?: string;
+    description?: string;
+    heading?: string | false;
+    subheading?: string;
+    canonical?: boolean;
+    breadcrumbs?: { url?: string, name: string }[] | false;
+};
+export type Props = MarkdownLayoutProps<PropsBase> | PropsBase;
+const {
+    title, heading, subheading, description = 'Find2Fix researches transparent AI to help developers discover software errors, understand their root causes, and explain suggested fixes.', canonical = true, breadcrumbs = [],
+} = 'frontmatter' in Astro.props ? Astro.props.frontmatter : Astro.props;
+const siteTitle = 'Find2Fix';
+
+// Set the canonical URL to the current page URL, omitting a trailing slash
+const path = Astro.url.pathname.replace(/^\/|\.html$/g, '');
+const canonicalURL = (Astro.site?.toString() ?? '').replace(/\/$/, '') + (path !== '' ? `/${path}` : '');
+---
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content={Astro.generator} />
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title ? `${title} | ${siteTitle}` : siteTitle} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonicalURL} />
+        <title>{title ? `${title} | ${siteTitle}` : siteTitle}</title>
+        {
+            canonical
+            && <link rel="canonical" href={canonicalURL}>
+        }
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/find2fix-apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/find2fix-favicon-32.png">
+        <link rel="icon" type="image/svg+xml" sizes="any" href="/find2fix-favicon.svg">
+        <meta name="theme-color" content="#0f2747">
+    </head>
+    <body class="bg-base-100 flex flex-col items-center">
+        <header class="bg-accent text-primary-content sticky top-0 z-50 w-full shadow">
+            <nav class="navbar mx-auto max-w-5xl px-4">
+                <div class="navbar-start w-auto grow gap-5">
+                    <a href="/">
+                        <img src="/logo-light.svg" alt="Find2Fix home" width="180" height="48" class="w-36 shrink-0"/>
+                    </a>
+
+                    {/* Desktop menu */}
+                    <ul class="menu menu-horizontal hidden font-semibold md:flex">
+                        <Navigation />
+                    </ul>
+                </div>
+                <div class="navbar-end">
+                    {/* Mobile menu */}
+                    <details class="dropdown dropdown-end">
+                        <summary class="btn btn-ghost btn-primary btn-square md:hidden">
+                            <Icon name="mdi:menu" class="size-8"/>
+                        </summary>
+                        <ul class="menu dropdown-content bg-base-200 rounded-box text-base-content z-20 mt-5 w-52 items-start overflow-hidden p-2 font-semibold shadow">
+                            <Navigation />
+                        </ul>
+                    </details>
+                </div>
+            </nav>
+        </header>
+        {
+            Astro.slots.banner !== undefined
+            && <Banner>
+                <slot name="banner" />
+            </Banner>
+        }
+        <div class="z-10 flex w-full max-w-5xl grow flex-col p-4">
+            {
+                breadcrumbs !== false
+                    && <div class="breadcrumbs text-sm">
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            {
+                                breadcrumbs.map(({ name, url }) => (
+                                    url !== undefined
+                                        ? <li><a href={url}>{name}</a></li>
+                                        : <li>{name}</li>
+                                ))
+                            }
+                            <li>{title}</li>
+                        </ul>
+                    </div>
+            }
+            {
+                heading !== false
+                    && <h1 class="heading-1 max-w-[65ch]">{heading ?? title}</h1>
+            }
+            {
+                subheading !== undefined
+                    && <p class="mb-3 max-w-[65ch] text-current/50 italic">{subheading}</p>
+            }
+            <div class="flex flex-row items-stretch gap-10">
+                <main class="flex shrink grow flex-col">
+                    {
+                        Astro.slots['sidebar-start'] !== undefined
+                        && <div class="mt-3 mb-8 w-full md:hidden">
+                            <slot name="sidebar-start" />
+                        </div>
+                    }
+
+                    <slot />
+
+                    {
+                        Astro.slots['sidebar-end'] !== undefined
+                        && <div class="mt-8 w-full shrink-0 grow-0 md:hidden">
+                            <slot name="sidebar-end" />
+                        </div>
+                    }
+                    <slot name="extra" />
+                </main>
+                {
+                    (Astro.slots['sidebar-start'] !== undefined || Astro.slots['sidebar-end'] !== undefined)
+                    && <div class="relative mt-0 hidden w-full max-w-[250px] shrink-0 grow-0 flex-col gap-8 md:flex">
+                        <slot name="sidebar-start" />
+                        <slot name="sidebar-end" />
+                    </div>
+                }
+            </div>
+        </div>
+        <footer class="border-base-200 mt-4 w-full border-t-1">
+            <div class="footer footer-vertical xs:footer-horizontal bg-base-100 text-base-content mx-auto max-w-5xl items-center gap-2 p-4">
+                <nav class="xs:justify-start flex w-full flex-wrap justify-center gap-4" aria-label="Project links">
+                    <a class="link link-hover" href="https://www.nwo.nl/en/projects/pihzy95745">NWO project</a>
+                    <a class="link link-hover" href="https://github.com/find2fix">GitHub</a>
+                </nav>
+                <aside class="xs:justify-end flex w-full items-center justify-center">
+                    <p>Copyright &copy; {new Date().getFullYear()} Find2Fix</p>
+                    <img
+                        class="mt-[-0.14rem] size-4"
+                        src="/logo-icon.svg"
+                        alt=""
+                    />
+                </aside>
+            </div>
+        </footer>
+    </body>
+</html>

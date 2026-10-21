@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import PersonCard from '#components/PersonCard.astro';
+import Base from '#layouts/Base.astro';
+
+const peopleCurrent = await getCollection('people', (person) => person.data.type === 'member');
+const peopleFormer = await getCollection('people', (person) => person.data.type === 'former');
+
+// Sort by priority first (lower numbers appear first), then alphabetically by name
+[peopleCurrent, peopleFormer].forEach((people) => people.sort((a, b) => {
+    if (a.data.priority !== b.data.priority) {
+        return (a.data.priority ?? Infinity) - (b.data.priority ?? Infinity);
+    }
+
+    return a.data.name.localeCompare(b.data.name);
+}));
+---
+<Base title="Team">
+    <p class="max-w-prose">Find2Fix brings together researchers from TU Delft and Radboud University, working with industrial partners DCODIS and ASML.</p>
+    <section>
+        <h2 class="heading-2">Project team</h2>
+        <div class="xs:grid-cols-2 grid grid-cols-1 justify-items-center gap-3 sm:grid-cols-3 md:grid-cols-4">
+            {
+                peopleCurrent.map((person) => (
+                    <PersonCard person={person} />
+                ))
+            }
+        </div>
+    </section>
+
+    {peopleFormer.length > 0 && <section>
+        <h2 class="heading-2">Former members</h2>
+        <div class="xs:grid-cols-2 grid grid-cols-1 justify-items-center gap-3 sm:grid-cols-3 md:grid-cols-4">
+            {
+                peopleFormer.map((person) => (
+                    <PersonCard person={person} />
+                ))
+            }
+        </div>
+    </section>}
+</Base>
