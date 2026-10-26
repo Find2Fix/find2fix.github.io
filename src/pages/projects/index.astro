@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '#layouts/Base.astro';
+import ProjectCard from '#components/ProjectCard.astro';
+
+const projects = (await getCollection('projects'))
+    .sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+<Base title="Projects">
+    <p class="mb-6 max-w-prose">Explore the research projects that make up Find2Fix.</p>
+    <div class="grid grid-cols-1 justify-items-center gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+</Base>

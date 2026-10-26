@@ -1,4 +1,7 @@
 ---
 name: Sicco Verwer
-role: Researcher · TU Delft
+role: Professor · Tilburg University
+university: Tilburg University
+teamGroup: researcher
+priority: 1
 ---

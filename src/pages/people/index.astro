@@ -14,28 +14,48 @@ const peopleFormer = await getCollection('people', (person) => person.data.type 
 
     return a.data.name.localeCompare(b.data.name);
 }));
+
+const phdAndPostdocs = peopleCurrent.filter((person) => person.data.teamGroup === 'phd-postdoc');
+const researcherGroups = (['Tilburg University', 'TU Delft', 'Radboud University'] as const).map((university) => ({
+    university,
+    people: peopleCurrent.filter((person) => (
+        person.data.teamGroup === 'researcher' && person.data.university === university
+    )),
+})).filter((group) => group.people.length > 0);
 ---
 <Base title="Team">
-    <p class="max-w-prose">Find2Fix brings together researchers from TU Delft and Radboud University, working with industrial partners DCODIS and ASML.</p>
-    <section>
-        <h2 class="heading-2">Project team</h2>
-        <div class="xs:grid-cols-2 grid grid-cols-1 justify-items-center gap-3 sm:grid-cols-3 md:grid-cols-4">
-            {
-                peopleCurrent.map((person) => (
-                    <PersonCard person={person} />
-                ))
-            }
-        </div>
-    </section>
+    <p class="max-w-prose">Find2Fix brings together researchers from TU Delft, Radboud University, and Tilburg University, working with industrial partners dCodis and ASML.</p>
+    {researcherGroups.length > 0 && <section>
+        <h2 class="heading-2">Researchers</h2>
+        {researcherGroups.map(({ university, people }) => (
+            <section>
+                <h3 class="heading-3">{university}</h3>
+                <div class="xs:grid-cols-2 grid grid-cols-1 justify-items-center gap-3 sm:grid-cols-3 md:grid-cols-4">
+                    {people.map((person) => <PersonCard person={person} />)}
+                </div>
+            </section>
+        ))}
+    </section>}
 
-    {peopleFormer.length > 0 && <section>
-        <h2 class="heading-2">Former members</h2>
+    {phdAndPostdocs.length > 0 && <section>
+        <h2 class="heading-2">PhD candidates and postdocs</h2>
         <div class="xs:grid-cols-2 grid grid-cols-1 justify-items-center gap-3 sm:grid-cols-3 md:grid-cols-4">
             {
-                peopleFormer.map((person) => (
+                phdAndPostdocs.map((person) => (
                     <PersonCard person={person} />
                 ))
             }
         </div>
     </section>}
+
+    <section>
+        <h2 class="heading-2">Former members</h2>
+        {peopleFormer.length > 0 ? <div class="xs:grid-cols-2 grid grid-cols-1 justify-items-center gap-3 sm:grid-cols-3 md:grid-cols-4">
+            {
+                peopleFormer.map((person) => (
+                    <PersonCard person={person} />
+                ))
+            }
+        </div> : <p class="text-base-content/70">No former members listed yet.</p>}
+    </section>
 </Base>

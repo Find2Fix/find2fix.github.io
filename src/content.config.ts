@@ -28,6 +28,8 @@ const people = defineCollection({
     schema: ({ image }) => z.object({
         name: z.string(),
         role: z.string(),
+        university: z.enum(['Tilburg University', 'TU Delft', 'Radboud University']).optional(),
+        teamGroup: z.enum(['researcher', 'phd-postdoc']).optional(),
         type: z.enum(['member', 'former', 'external']).optional().default('member'),
         // Lower numbers appear first, default is alphabetical order.
         priority: z.number().optional(),

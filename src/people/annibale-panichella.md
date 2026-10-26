@@ -1,4 +1,6 @@
 ---
 name: Annibale Panichella
-role: Researcher · TU Delft
+role: Associate Professor · TU Delft
+university: TU Delft
+teamGroup: researcher
 ---

@@ -1,4 +1,6 @@
 ---
 name: Erik Poll
-role: Researcher · Radboud University
+role: Associate Professor · Radboud University
+university: Radboud University
+teamGroup: researcher
 ---

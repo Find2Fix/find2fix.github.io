@@ -1,7 +1,8 @@
 ---
 name: Mairieli Wessel
-role: Researcher · Radboud University
-priority: 1
+role: Assistant Professor · Radboud University
+university: Radboud University
+teamGroup: researcher
 photo: ../images/people/mairieli.jpg
 hasPage: true
 email: mairieli.wessel [at] ru.nl

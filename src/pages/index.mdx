@@ -7,7 +7,7 @@ export const news = await getCollection('news');
     <section slot="banner" class="pt-10 sm:pt-16">
         <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-blue-200">Find2Fix · Transparent AI for software security</p>
         <h1 class="max-w-2xl text-3xl font-bold leading-tight sm:text-5xl">Reducing software errors using transparent AI</h1>
-        <p class="mt-5 max-w-2xl text-base text-blue-100 sm:text-lg">From finding an error to understanding its fix. We research AI that helps developers explain what went wrong and why a suggested solution works.</p>
+        <p class="mt-5 max-w-2xl text-base text-blue-100 sm:text-lg">From finding an error to understanding its fix. We research interpretable AI that detects bugs, synthesizes patches, and shows why they work.</p>
         <a href="/about" class="btn mt-6 border-white bg-white text-accent hover:bg-blue-100">Explore the project</a>
     </section>
 
@@ -17,36 +17,36 @@ export const news = await getCollection('news');
             <article class="rounded-lg border border-blue-100 bg-blue-50 p-6">
                 <span class="font-semibold text-primary">01 / Find</span>
                 <h3 class="heading-3 mt-3">Discover software errors</h3>
-                <p>Identify errors and vulnerabilities in software.</p>
+                <p>Learn how software behaves to uncover hidden faults and find the code behind them.</p>
             </article>
             <article class="rounded-lg border border-blue-100 bg-blue-50 p-6">
                 <span class="font-semibold text-primary">02 / Fix</span>
                 <h3 class="heading-3 mt-3">Automatically patching</h3>
-                <p>Fixing the found vulnerability using program synthesis.</p>
+                <p>Automatically generate code changes that prevent faulty behavior.</p>
             </article>
             <article class="rounded-lg border border-blue-100 bg-blue-50 p-6">
                 <span class="font-semibold text-primary">03 / Explain</span>
                 <h3 class="heading-3 mt-3">Explain the solution</h3>
-                <p>Make AI results understandable, with explanations suited to developers' needs.</p>
+                <p>Make results understandable, with explanations suited to developers' needs.</p>
             </article>
         </div>
     </section>
 
     <section>
         <h2 class="heading-2">A shared research effort</h2>
-        <p class="max-w-prose">Find2Fix brings together ASML, TU Delft, Radboud University, and DCODIS. The project is funded by NWO through the KIC programme on cybersecurity for digital resilience.</p>
+        <p class="max-w-prose">Find2Fix brings together ASML, TU Delft, Radboud University, and dCodis. The project is funded by NWO through the KIC programme on Cybersecurity for Digital Resilience.</p>
         <div class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4" aria-label="Project partners">
-            <a href="https://www.asml.com" aria-label="ASML" class="flex h-32 items-center justify-center rounded-lg border border-blue-100 bg-white p-6 transition hover:border-blue-300 hover:shadow-sm">
+            <a target = "_blank" href="https://www.asml.com" aria-label="ASML" class="flex h-32 items-center justify-center rounded-lg border border-blue-100 bg-white p-6 transition hover:border-blue-300 hover:shadow-sm">
                 <img src="/partners/asml.svg" alt="ASML" width="150" height="42" class="h-auto max-h-16 w-full max-w-36 object-contain" loading="lazy" />
             </a>
-            <a href="https://www.tudelft.nl/en" aria-label="TU Delft" class="flex h-32 items-center justify-center rounded-lg border border-blue-100 bg-white p-6 transition hover:border-blue-300 hover:shadow-sm">
+            <a target = "_blank" href="https://www.tudelft.nl/en" aria-label="TU Delft" class="flex h-32 items-center justify-center rounded-lg border border-blue-100 bg-white p-6 transition hover:border-blue-300 hover:shadow-sm">
                 <img src="/partners/tudelft.png" alt="TU Delft" width="164" height="64" class="h-auto max-h-16 w-full max-w-40 object-contain" loading="lazy" />
             </a>
-            <a href="https://www.ru.nl/en" aria-label="Radboud University" class="flex h-32 items-center justify-center rounded-lg border border-blue-100 bg-white p-6 transition hover:border-blue-300 hover:shadow-sm">
+            <a target = "_blank" href="https://www.ru.nl/en" aria-label="Radboud University" class="flex h-32 items-center justify-center rounded-lg border border-blue-100 bg-white p-6 transition hover:border-blue-300 hover:shadow-sm">
                 <img src="/partners/radboud.png" alt="Radboud University" width="640" height="312" class="h-auto max-h-24 w-full object-contain" loading="lazy" />
             </a>
             <div class="flex h-32 items-center justify-center rounded-lg border border-blue-100 bg-white p-6">
-                <span class="text-xl font-semibold tracking-wide text-accent">DCODIS</span>
+                <span class="text-xl font-semibold tracking-wide text-accent">dCodis</span>
             </div>
         </div>
         <a href="/people" class="link link-primary mt-5 inline-block">Meet the team →</a>

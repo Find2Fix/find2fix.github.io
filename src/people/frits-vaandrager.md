@@ -1,4 +1,6 @@
 ---
 name: Frits Vaandrager
-role: Researcher · Radboud University
+role: Professor · Radboud University
+university: Radboud University
+teamGroup: researcher
 ---

@@ -53,11 +53,11 @@ const canonicalURL = (Astro.site?.toString() ?? '').replace(/\/$/, '') + (path !
                     </a>
 
                     {/* Desktop menu */}
-                    <ul class="menu menu-horizontal hidden font-semibold md:flex">
+                    <ul class="menu menu-horizontal hidden flex-nowrap whitespace-nowrap font-semibold md:flex">
                         <Navigation />
                     </ul>
                 </div>
-                <div class="navbar-end">
+                <div class="navbar-end w-auto shrink-0 md:hidden">
                     {/* Mobile menu */}
                     <details class="dropdown dropdown-end">
                         <summary class="btn btn-ghost btn-primary btn-square md:hidden">

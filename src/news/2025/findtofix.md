@@ -4,12 +4,9 @@ title: "The NWO-KIC proposal 'Find2Fix: reducing software errors using transpare
 category: grant
 hasPage: true
 slug: findtofix-grant
-people: 
-- mairieli-wessel
-project: vulnerability-explanation
 externalURL: https://www.nwo.nl/en/projects/pihzy95745
 ---
-The Find2Fix project received funding from NWO through the Knowledge and Innovation Convenant (KIC) on cybersecurity for digital resilience. Find2Fix is a collaboration between researchers from TU Delft (Sicco Verwer, Sebastijan Dumancic, and Annibale Panichella) and Radboud University Nijmegen (Mairieli Wessel, Erik Poll, and Frits Vaandrager), and industrial partners DCODIS and ASML, focussed on reducing software errors using transparent AI.
+The Find2Fix project received funding from NWO through the Knowledge and Innovation Convenant (KIC) on Cybersecurity for Digital Resilience. Find2Fix is a collaboration between researchers from TU Delft (Sicco Verwer, Sebastijan Dumancic, and Annibale Panichella) and Radboud University Nijmegen (Mairieli Wessel, Erik Poll, and Frits Vaandrager), and industrial partners dCodis and ASML, focussed on reducing software errors using transparent AI.
 
 The team will build the first open-source Find2Fix pipeline, focused on explaining the root cause of an error and why a suggested fix works.
 

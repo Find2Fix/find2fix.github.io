@@ -1,4 +1,6 @@
 ---
 name: Sebastijan Dumancic
-role: Researcher · TU Delft
+role: Assistant Professor · TU Delft
+university: TU Delft
+teamGroup: researcher
 ---
